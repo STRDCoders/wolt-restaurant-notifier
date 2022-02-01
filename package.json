@@ -1,13 +1,13 @@
 {
-  "name": "<NAME>",
+  "name": "wolt-restaurant-notifier",
   "version": "1.0.0",
-  "description": "<DESCRIPTION>",
+  "description": "Telegram bot for notifications on restaurants status",
   "author": "STRDcoders",
   "license": "ISC",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "<REPOURL>"
+    "url": "https://github.com/STRDCoders/wolt-restaurant-notifier.git"
   },
   "scripts": {
     "build": "tsc -sourcemap -p ./tsconfig.json",
@@ -15,7 +15,6 @@
   },
   "keywords": [],
   "dependencies": {
-    "amqplib": "^0.6.0",
     "express": "^4.17.1",
     "source-map-support": "^0.5.19",
     "winston": "3.3.3"
