@@ -11,16 +11,17 @@
   },
   "scripts": {
     "build": "tsc -sourcemap -p ./tsconfig.json",
-    "run": "node -r source-map-support/register dist/src/main.js"
+    "run": "node -r source-map-support/register dist/src/main.js",
+    "start": "npm run build && npm run run"
   },
   "keywords": [],
   "dependencies": {
     "express": "^4.17.1",
     "source-map-support": "^0.5.19",
+    "telegraf": "^4.6.0",
     "winston": "3.3.3"
   },
   "devDependencies": {
-    "@types/amqplib": "^0.5.16",
     "@types/node": "^14.14.10",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
