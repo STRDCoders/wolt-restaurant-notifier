@@ -22,6 +22,17 @@ describe("User", () => {
     expect(userFromDb).to.not.be.null;
   });
 
+  it("should fail creating a new user if chatId is not unique", async () => {
+    const chatId = TestUtils.randomString(TestUtils.randomNumber());
+    const user = await UserModel.createUser(chatId);
+
+    await expect(UserModel.createUser(chatId)).to.eventually.rejectedWith(Error);
+
+    const users = await UserModel.find({});
+    expect(users.length).to.equal(1);
+    expect(users[0]._id.toString()).to.equal(user._id.toString());
+  });
+
   it("should be able to find a user by chatId", async () => {
     const user = await UserModel.createUser(TestUtils.randomString(TestUtils.randomNumber()));
     const userFromDb = await UserModel.findByChatId(user.chatId);
