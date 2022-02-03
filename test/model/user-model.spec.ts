@@ -1,6 +1,3 @@
-// tests for UserSchema model, using the InMemoryMongodbConnector for testing.
-// Restart connection after each test.
-
 import { InMemoryMongodbConnector } from "../utils/in-memory-mongodb";
 import { UserModel } from "../../src/model/user-model";
 import { TestUtils } from "../utils/test-utils";
@@ -20,7 +17,6 @@ describe("User", () => {
   });
 
   it("should be able to create a new user", async () => {
-    // use UserModel.createUser to create a new user with random chatId, and fetch from db results to make sure it was created
     const user = await UserModel.createUser(TestUtils.randomString(TestUtils.randomNumber()));
     const userFromDb = await UserModel.findById(user._id);
     expect(userFromDb).to.not.be.null;
@@ -34,7 +30,6 @@ describe("User", () => {
 
   describe("Address", () => {
     it("should be able to add an address to a user", async () => {
-      // use UserModel.createUser to create a new user with random chatId, and fetch from db results to make sure it was created
       const user = await UserModel.createUser(TestUtils.randomString(TestUtils.randomNumber()));
       await user.addAddress(TestUtils.randomString(TestUtils.randomNumber()), [
         TestUtils.randomNumber(),
