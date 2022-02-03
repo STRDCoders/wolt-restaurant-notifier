@@ -38,7 +38,7 @@ const pointSchema = new Schema({
 
 // Create schema for the UserDTO model
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const UserSchema = new Schema<IUser, UserModel>({
+const UserSchema = new Schema<IUser, IUserModel>({
   chatId: {
     type: String,
     required: true,
@@ -67,7 +67,7 @@ export interface IUser extends Document, UserDTO {
   addAddress(addressId: string, geo: [number, number]): Promise<void>;
 }
 
-export interface UserModel extends Model<IUser> {
+export interface IUserModel extends Model<IUser> {
   findByChatId(chatId: string): Promise<IUser>;
   createUser(chatId: string): Promise<IUser>;
 }
@@ -103,5 +103,5 @@ UserSchema.methods.addAddress = async function (addressId: string, geo: [number,
 };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const UserModel: UserModel = model<IUser, UserModel>("UserDTO", UserSchema, "users");
+export const UserModel: IUserModel = model<IUser, IUserModel>("UserDTO", UserSchema, "users");
 const logger: Logger = LoggerFactory.getLogger(UserModel.name);
