@@ -13,6 +13,7 @@ export interface GeoDTO {
   type: "Point";
   coordinates: [number, number];
 }
+
 export interface AddressDTO {
   addressId: string;
   geo: GeoDTO;
@@ -36,7 +37,6 @@ const pointSchema = new Schema({
   },
 });
 
-// Create schema for the UserDTO model
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const UserSchema = new Schema<IUser, IUserModel>({
   chatId: {
