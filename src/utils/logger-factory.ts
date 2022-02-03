@@ -2,10 +2,10 @@ import winston, { Logger } from "winston";
 import { TransformableInfo } from "logform";
 
 export class LoggerFactory {
-  public static INFO: string = "info";
-  public static DEBUG: string = "debug";
+  public static readonly info: string = "info";
+  public static readonly debug: string = "debug";
 
-  public static getLogger(loggerName: string, logLevel: string = this.DEBUG): Logger {
+  public static getLogger(loggerName: string, logLevel: string = this.debug): Logger {
     return winston.createLogger({
       level: logLevel,
       format: winston.format.combine(
