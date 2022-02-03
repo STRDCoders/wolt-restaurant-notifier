@@ -64,7 +64,7 @@ const UserSchema = new Schema<IUser, UserModel>({
 });
 
 export interface IUser extends Document, UserDTO {
-  addAddress(addressId: string, geo: GeoDTO): Promise<void>;
+  addAddress(addressId: string, geo: [number, number]): Promise<void>;
 }
 
 export interface UserModel extends Model<IUser> {
@@ -78,20 +78,22 @@ UserSchema.statics.findByChatId = async function (chatId: string) {
 
 UserSchema.statics.createUser = async function (chatId: string) {
   logger.info(`Creating user with chatId: ${chatId}`);
-  const user = new UserModel({
+  return (await UserModel.create({
     chatId: chatId,
     timestamp: Date.now(),
     addresses: [],
-  });
-  return user.save();
+  })) as IUser;
 };
 
 // Add address to the current user object, if address already in the user, return error
-UserSchema.methods.addAddress = async function (addressId: string, geo: GeoDTO) {
+UserSchema.methods.addAddress = async function (addressId: string, geo: [number, number]) {
   logger.info(`Adding address with addressId: ${addressId} to user with chatId: ${this.chatId}`);
-  const address = {
+  const address: AddressDTO = {
     addressId: addressId,
-    geo: geo,
+    geo: {
+      type: "Point",
+      coordinates: geo,
+    },
   };
   if (this.addresses.find((a: AddressDTO) => a.addressId === addressId)) {
     throw new Error(`Address with addressId: ${addressId} already exists in user with chatId: ${this.chatId}`);
