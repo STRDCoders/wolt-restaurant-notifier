@@ -78,6 +78,10 @@ UserSchema.statics.findByChatId = async function (chatId: string) {
 
 UserSchema.statics.createUser = async function (chatId: string) {
   logger.info(`Creating user with chatId: ${chatId}`);
+  const user = await this.findByChatId(chatId);
+  if (user) {
+    throw new Error(`User with chatId: ${chatId} already exists`);
+  }
   return (await UserModel.create({
     chatId: chatId,
     timestamp: Date.now(),

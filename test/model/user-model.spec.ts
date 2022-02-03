@@ -25,8 +25,7 @@ describe("User", () => {
   it("should fail creating a new user if chatId is not unique", async () => {
     const chatId = TestUtils.randomString(TestUtils.randomNumber());
     const user = await UserModel.createUser(chatId);
-
-    await expect(UserModel.createUser(chatId)).to.eventually.rejectedWith(Error);
+    await expect(UserModel.createUser(chatId)).to.be.rejectedWith(Error);
 
     const users = await UserModel.find({});
     expect(users.length).to.equal(1);
