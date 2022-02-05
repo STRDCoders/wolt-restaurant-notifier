@@ -1,5 +1,5 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { MongooseConnector } from "../../src/services/MongooseConnector";
+import { MongooseConnector } from "../../src/utils/MongooseConnector";
 
 export class InMemoryMongodbConnector {
   private static db = new MongoMemoryServer();
