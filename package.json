@@ -20,6 +20,7 @@
   "dependencies": {
     "@types/chai-as-promised": "^7.1.4",
     "@types/mongoose": "^5.11.97",
+    "axios": "^0.25.0",
     "express": "^4.17.1",
     "grammy": "^1.7.0",
     "grammy-inline-menu": "^7.0.2",
