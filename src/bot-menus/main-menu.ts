@@ -1,9 +1,9 @@
 import { MenuMiddleware, MenuTemplate } from "grammy-inline-menu";
-import { Context, SessionFlavor } from "grammy";
-import { addressManagementTemplate, registrationTemplate } from "./user-menu";
-import { SessionData } from "../services/telegram-bot-service";
-
-export type BasicContext = Context & SessionFlavor<SessionData>;
+import { AddressManagementMenu } from "./address-management-menu";
+import { BasicContext } from "./menu";
+import { RegisterMenu } from "./register-menu";
+import { Constants } from "../utils/constants";
+import { PingMenu } from "./ping-menu";
 
 export class MainMenuMiddleware {
   private mainTemplate: MenuTemplate<BasicContext> = new MenuTemplate("user-menu");
@@ -20,7 +20,12 @@ export class MainMenuMiddleware {
   }
 
   private registerTemplates(): void {
-    this.mainTemplate.submenu("Welcome", "welcome", registrationTemplate);
-    this.mainTemplate.submenu("Address management", "address", addressManagementTemplate);
+    this.mainTemplate.submenu("Welcome", Constants.bot.menu.actions.register, new RegisterMenu().getMenu());
+    this.mainTemplate.submenu("Ping", Constants.bot.menu.actions.ping.menu, new PingMenu().getMenu());
+    this.mainTemplate.submenu(
+      "Address management",
+      Constants.bot.menu.actions.address.address,
+      new AddressManagementMenu().getMenu()
+    );
   }
 }
