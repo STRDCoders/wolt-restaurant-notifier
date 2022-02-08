@@ -62,6 +62,7 @@ export interface IUser extends Document, UserDTO {
 }
 
 export interface IUserModel extends Model<IUser> {
+  deleteUserByChatId(chatId: string): Promise<void>;
   findByChatId(chatId: string): Promise<IUser>;
   createUser(chatId: string): Promise<IUser>;
 }

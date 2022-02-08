@@ -41,6 +41,17 @@ export class TelegramBotService {
     this.mainMenuMiddleware = new MainMenuMiddleware().getMenu();
     this.initBotMiddleware();
     this.initBotCommands();
+    this.bot.api.setMyCommands([
+      {
+        command: "address",
+        description: "Manage your addresses",
+      },
+      {
+        command: "ping",
+        description: "Register to a restaurant",
+      },
+    ]);
+
     this.bot.start();
   }
 

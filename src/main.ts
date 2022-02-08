@@ -10,11 +10,8 @@ const logger: Logger = LoggerFactory.getLogger("main");
 async function startup() {
   logger.info("App is starting...");
   await MongooseConnector.connect(Constants.mongoUri);
-  // TODO - dependency injection
   const userService = new UserService();
-
   await new TelegramBotService(userService);
-
   setInterval(() => {
     PingCyclerService.run();
   }, 1000 * 30);
