@@ -2,15 +2,9 @@ import { Model, model, Schema, Document } from "mongoose";
 import { LoggerFactory } from "../utils/logger-factory";
 import { Logger } from "winston";
 
-/* Create a mongodb model for "user" containing the following fields:
- - chatId: string - as primary key
- - timestamp: number - timestamp of creation
- - addresses: Array<AddressDTO> - array of addresses
-Addresses are objects containing the following fields:
- - addressId: string - as primary key
- - geo: GeoDTO - geo object */
 export interface GeoDTO {
   type: "Point";
+  // longitude comes first in a GeoJSON coordinate array, not latitude - by 'Mongoos' docs.
   coordinates: [number, number];
 }
 
@@ -64,10 +58,11 @@ const UserSchema = new Schema<IUser, IUserModel>({
 });
 
 export interface IUser extends Document, UserDTO {
-  addAddress(addressId: string, geo: [number, number]): Promise<void>;
+  addAddress(addressId: string, geo: [number, number]): Promise<IUser>;
 }
 
 export interface IUserModel extends Model<IUser> {
+  deleteUserByChatId(chatId: string): Promise<void>;
   findByChatId(chatId: string): Promise<IUser>;
   createUser(chatId: string): Promise<IUser>;
 }
@@ -89,9 +84,7 @@ UserSchema.statics.createUser = async function (chatId: string) {
   })) as IUser;
 };
 
-// Add address to the current user object, if address already in the user, return error
 UserSchema.methods.addAddress = async function (addressId: string, geo: [number, number]) {
-  logger.info(`Adding address with addressId: ${addressId} to user with chatId: ${this.chatId}`);
   const address: AddressDTO = {
     addressId: addressId,
     geo: {
@@ -103,9 +96,9 @@ UserSchema.methods.addAddress = async function (addressId: string, geo: [number,
     throw new Error(`Address with addressId: ${addressId} already exists in user with chatId: ${this.chatId}`);
   }
   this.addresses.push(address);
-  return this.save();
+  return await this.save();
 };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const UserModel: IUserModel = model<IUser, IUserModel>("UserDTO", UserSchema, "users");
+export const UserModel: IUserModel = model<IUser, IUserModel>("User", UserSchema, "users");
 const logger: Logger = LoggerFactory.getLogger(UserModel.name);

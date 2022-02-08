@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { LoggerFactory } from "../utils/logger-factory";
+import { LoggerFactory } from "./logger-factory";
 
 /* Create and export a class called MongoooseConnector
   that has a function that is called "connect" that receives a uri string, and connects to mongodb with it and with username and password from env property,
