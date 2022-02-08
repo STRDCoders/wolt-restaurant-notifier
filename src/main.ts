@@ -4,6 +4,7 @@ import { MongooseConnector } from "./utils/MongooseConnector";
 import { Constants } from "./utils/constants";
 import { TelegramBotService } from "./services/telegram-bot-service";
 import { UserService } from "./services/user-service";
+import { PingCyclerService } from "./services/ping-cycler-service";
 const logger: Logger = LoggerFactory.getLogger("main");
 
 async function startup() {
@@ -12,8 +13,11 @@ async function startup() {
   // TODO - dependency injection
   const userService = new UserService();
 
-  // new BotBot();
   await new TelegramBotService(userService);
+
+  setInterval(() => {
+    PingCyclerService.run();
+  }, 1000 * 30);
 }
 
 startup().then(() => logger.info("Initialized"));

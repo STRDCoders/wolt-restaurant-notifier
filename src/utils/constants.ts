@@ -38,6 +38,7 @@ export class Constants {
         noAddress: "You need to register an address before you can request a restaurant notification",
         noResults: "I couldn't find any restaurantsSearchResult that match your input.",
         spy: (name: string) => `I will spy on ${name} 👀`,
+        available: (name: string) => `*${name}* is now available for orders!\nBon Appétit 🍽`,
       }),
     }),
     menu: Object.freeze({

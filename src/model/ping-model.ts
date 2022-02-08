@@ -35,6 +35,8 @@ export interface IRestaurantMonitor extends Document, RestaurantMonitorDTO {
 export interface IRestaurantMonitorModel extends Model<IRestaurantMonitor> {
   monitorRestaurant(restaurantSlug: string, names: string, user: UserDTO): Promise<IRestaurantMonitor>;
   findRestaurantMonitor(restaurantSlug: string): Promise<IRestaurantMonitor>;
+  getAllMonitoredRestaurants(): Promise<IRestaurantMonitor[]>;
+  deleteRestaurantMonitor(restaurantSlug: string): Promise<void>;
 }
 
 RestaurantMonitorSchema.statics.monitorRestaurant = async function (
@@ -53,6 +55,14 @@ RestaurantMonitorSchema.statics.monitorRestaurant = async function (
 
 RestaurantMonitorSchema.statics.findRestaurantMonitor = async function (restaurantSlug: string) {
   return this.findOne({ slug: restaurantSlug }).populate("users");
+};
+
+RestaurantMonitorSchema.statics.getAllMonitoredRestaurants = async function () {
+  return this.find().populate("users");
+};
+
+RestaurantMonitorSchema.statics.deleteRestaurantMonitor = async function (restaurantSlug: string) {
+  return this.deleteOne({ slug: restaurantSlug });
 };
 
 RestaurantMonitorSchema.methods.addUser = async function (user: UserDTO): Promise<void> {

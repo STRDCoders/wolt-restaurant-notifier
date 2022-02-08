@@ -7,6 +7,7 @@ const logger: Logger = LoggerFactory.getLogger("restaurant-monitor-service");
 
 export interface IRestaurantMonitorService {
   monitorRestaurant(restaurantSlug: string, restaurantName: string, user: UserDTO): Promise<void>;
+  getAllMonitoredRestaurants(): Promise<IRestaurantMonitor[]>;
 }
 
 class RestaurantMonitorService implements IRestaurantMonitorService {
@@ -23,6 +24,24 @@ class RestaurantMonitorService implements IRestaurantMonitorService {
       } else {
         await RestaurantMonitorModel.monitorRestaurant(restaurantSlug, restaurantName, user);
       }
+    } catch (error) {
+      logger.error(error);
+    }
+  }
+
+  public async getAllMonitoredRestaurants(): Promise<IRestaurantMonitor[]> {
+    try {
+      return await RestaurantMonitorModel.getAllMonitoredRestaurants();
+    } catch (error) {
+      logger.error(error);
+      return [];
+    }
+  }
+
+  public async deleteRestaurantMonitor(restaurantSlug: string): Promise<void> {
+    try {
+      logger.info(`Deleting restaurant monitor ${restaurantSlug}`);
+      await RestaurantMonitorModel.deleteRestaurantMonitor(restaurantSlug);
     } catch (error) {
       logger.error(error);
     }

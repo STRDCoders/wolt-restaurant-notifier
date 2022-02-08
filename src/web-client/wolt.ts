@@ -35,7 +35,7 @@ export class WoltWebClient {
   }
 
   static async restaurantSearch(name: string, geo: GeoDTO): Promise<Array<WoltRestaurantSearchResult>> {
-    logger.info(
+    logger.debug(
       `sending request to Wolt API for restaurant search: ${name} with location ${geo.coordinates[0].toString()}, ${geo.coordinates[1].toString()}`
     );
     const response = await Axios.get(
@@ -50,7 +50,7 @@ export class WoltWebClient {
   }
 
   static async restaurantInfo(name: string): Promise<WoltRestaurantInfoResult> {
-    logger.info(`sending request to Wolt API for restaurant info: ${name}`);
+    logger.debug(`sending request to Wolt API for restaurant info: ${name}`);
     const response = await Axios.get(Constants.woltApi.endpoints.restaurantInfo(name), WoltWebClient.settings).catch(
       (error) => {
         logger.error(`Error while fetching restaurant info: ${name}`);
